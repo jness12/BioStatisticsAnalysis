@@ -38,3 +38,103 @@ You can add options to executable code like this
 ```
 
 The `echo: false` option disables the printing of code (only output is displayed).
+
+# About our data
+
+The dats includes 8 features measured on 44 penguins. The features included are physiological features like bill length, bill depth, flipper length, body mass, etc. as well as other features like the year the penguin was observed, sex of the penguin, the island the penguin was observed on, and the species of the penguin.
+
+# Interesting Questions to Ask
+
+-   What is the average flipper length? What about for each species?
+
+-   Are there more male or female penguins? per island? per species?
+
+-   What is the average body mass? By species? By sex?
+
+-   What is the ratio of bill length to bill depth for a penguin? What is the overall average of this metric? Does it change by species, sex, or island?
+
+-   Does average body mass change by year?
+
+    # Data manipulation tools & strategies
+
+    We can look at individual columns in a data set or subsets of columns in a data set. For ex, we are only interested in flipper length and species we can select those columns.
+
+    ```{r}
+    penguins %>%
+      select (species, body_mass_g)
+
+    ```
+
+If we want to filter and only show certain rows, we can do that too.
+
+```{r}
+penguins %>%
+  filter (species == "chinstrap")
+
+
+
+```
+
+# Answering our questions
+
+Most of our questions involve summarizing data, and perhaps summarizing over groups. We can summarize data using summarize() function, and group data using group_by().
+
+Lets find average flipper length
+
+```{r}
+#overall average flipper length
+penguins %>%
+  summarize(avg_flipper_length = mean(flipper_length_mm)) 
+# Grouped Average
+penguins %>%
+  group_by(species) %>%
+  summarize(avg_flipper_length = mean(flipper_length_mm)) 
+  
+```
+
+How many of each species do we have?
+
+```{r}
+penguins %>%
+  group_by(species) %>%
+  summarize (sex)
+penguins %>%
+  group_by(island) %>%
+  summarize(sex)
+penguins %>%
+  count(sex)
+  
+
+```
+
+we can use mutate() to add new columns to our data set.
+
+```{r}
+penguins %>%
+  mutate(bill_ltd_ratio = bill_length_mm / bill_depth_mm) %>%
+  summarize (mean_bill_ltd_ratio = mean(bill_ltd_ratio),
+             median_bill_ltd_ratio =median(bill_ltd_ratio))
+
+```
+
+```{r}
+penguins %>%
+  mutate(bill_ltd_ratio = bill_length_mm / bill_depth_mm) %>%
+  summarize(mean_bill_ltd_ratio = mean(bill_ltd_ratio),
+             median_bill_ltd_ratio =median(bill_ltd_ratio))
+```
+
+```{r}
+penguins %>%
+  group_by(year)%>%
+  summarize(mean_body_mass = mean(body_mass_g))
+```
+
+```{r}
+penguins %>%
+  mutate(bill_ltd_ratio = bill_length_mm / bill_depth_mm) %>%
+  summarize(mean_bill_ltd_ratio = mean(bill_ltd_ratio),
+             median_bill_ltd_ratio =median(bill_ltd_ratio))
+```
+
+# Data Visualization

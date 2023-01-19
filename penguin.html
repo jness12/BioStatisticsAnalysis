@@ -268,6 +268,194 @@ dbl (5): bill_length_mm, bill_depth_mm, flipper_length_mm, body_mass_g, year
 </div>
 <p>The <code>echo: false</code> option disables the printing of code (only output is displayed).</p>
 </section>
+<section id="about-our-data" class="level1">
+<h1>About our data</h1>
+<p>The dats includes 8 features measured on 44 penguins. The features included are physiological features like bill length, bill depth, flipper length, body mass, etc. as well as other features like the year the penguin was observed, sex of the penguin, the island the penguin was observed on, and the species of the penguin.</p>
+</section>
+<section id="interesting-questions-to-ask" class="level1">
+<h1>Interesting Questions to Ask</h1>
+<ul>
+<li><p>What is the average flipper length? What about for each species?</p></li>
+<li><p>Are there more male or female penguins? per island? per species?</p></li>
+<li><p>What is the average body mass? By species? By sex?</p></li>
+<li><p>What is the ratio of bill length to bill depth for a penguin? What is the overall average of this metric? Does it change by species, sex, or island?</p></li>
+<li><p>Does average body mass change by year?</p>
+<h1 id="data-manipulation-tools-strategies">Data manipulation tools &amp; strategies</h1>
+<p>We can look at individual columns in a data set or subsets of columns in a data set. For ex, we are only interested in flipper length and species we can select those columns.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span> (species, body_mass_g)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 44 × 2
+   species body_mass_g
+   &lt;chr&gt;         &lt;dbl&gt;
+ 1 Gentoo         6050
+ 2 Gentoo         5800
+ 3 Gentoo         5550
+ 4 Gentoo         5500
+ 5 Gentoo         5850
+ 6 Gentoo         5950
+ 7 Gentoo         5700
+ 8 Gentoo         5350
+ 9 Gentoo         5550
+10 Gentoo         6300
+# … with 34 more rows</code></pre>
+</div>
+</div></li>
+</ul>
+<p>If we want to filter and only show certain rows, we can do that too.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span> (species <span class="sc">==</span> <span class="st">"chinstrap"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 0 × 8
+# … with 8 variables: species &lt;chr&gt;, island &lt;chr&gt;, bill_length_mm &lt;dbl&gt;,
+#   bill_depth_mm &lt;dbl&gt;, flipper_length_mm &lt;dbl&gt;, body_mass_g &lt;dbl&gt;, sex &lt;chr&gt;,
+#   year &lt;dbl&gt;</code></pre>
+</div>
+</div>
+</section>
+<section id="answering-our-questions" class="level1">
+<h1>Answering our questions</h1>
+<p>Most of our questions involve summarizing data, and perhaps summarizing over groups. We can summarize data using summarize() function, and group data using group_by().</p>
+<p>Lets find average flipper length</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">#overall average flipper length</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">avg_flipper_length =</span> <span class="fu">mean</span>(flipper_length_mm)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 1
+  avg_flipper_length
+               &lt;dbl&gt;
+1               212.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Grouped Average</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(species) <span class="sc">%&gt;%</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">avg_flipper_length =</span> <span class="fu">mean</span>(flipper_length_mm)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 2
+  species   avg_flipper_length
+  &lt;chr&gt;                  &lt;dbl&gt;
+1 Adelie                  189.
+2 Chinstrap               200 
+3 Gentoo                  218.</code></pre>
+</div>
+</div>
+<p>How many of each species do we have?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(species) <span class="sc">%&gt;%</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span> (sex)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'species'. You can override using the
+`.groups` argument.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 44 × 2
+# Groups:   species [3]
+   species   sex   
+   &lt;chr&gt;     &lt;chr&gt; 
+ 1 Adelie    male  
+ 2 Adelie    female
+ 3 Adelie    female
+ 4 Adelie    male  
+ 5 Adelie    male  
+ 6 Adelie    female
+ 7 Adelie    female
+ 8 Adelie    female
+ 9 Adelie    female
+10 Chinstrap male  
+# … with 34 more rows</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(island) <span class="sc">%&gt;%</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(sex)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'island'. You can override using the
+`.groups` argument.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 44 × 2
+# Groups:   island [3]
+   island sex  
+   &lt;chr&gt;  &lt;chr&gt;
+ 1 Biscoe male 
+ 2 Biscoe male 
+ 3 Biscoe male 
+ 4 Biscoe male 
+ 5 Biscoe male 
+ 6 Biscoe male 
+ 7 Biscoe male 
+ 8 Biscoe male 
+ 9 Biscoe male 
+10 Biscoe male 
+# … with 34 more rows</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(sex)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 2
+  sex        n
+  &lt;chr&gt;  &lt;int&gt;
+1 female    20
+2 male      24</code></pre>
+</div>
+</div>
+<p>we can use mutate() to add new columns to our data set.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">bill_ltd_ratio =</span> bill_length_mm <span class="sc">/</span> bill_depth_mm) <span class="sc">%&gt;%</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span> (<span class="at">mean_bill_ltd_ratio =</span> <span class="fu">mean</span>(bill_ltd_ratio),</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">median_bill_ltd_ratio =</span><span class="fu">median</span>(bill_ltd_ratio))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 2
+  mean_bill_ltd_ratio median_bill_ltd_ratio
+                &lt;dbl&gt;                 &lt;dbl&gt;
+1                2.95                  3.06</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">bill_ltd_ratio =</span> bill_length_mm <span class="sc">/</span> bill_depth_mm) <span class="sc">%&gt;%</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_bill_ltd_ratio =</span> <span class="fu">mean</span>(bill_ltd_ratio),</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">median_bill_ltd_ratio =</span><span class="fu">median</span>(bill_ltd_ratio))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 2
+  mean_bill_ltd_ratio median_bill_ltd_ratio
+                &lt;dbl&gt;                 &lt;dbl&gt;
+1                2.95                  3.06</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year)<span class="sc">%&gt;%</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_body_mass =</span> <span class="fu">mean</span>(body_mass_g))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 2
+   year mean_body_mass
+  &lt;dbl&gt;          &lt;dbl&gt;
+1  2007          5079.
+2  2008          4929.
+3  2009          4518.</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">bill_ltd_ratio =</span> bill_length_mm <span class="sc">/</span> bill_depth_mm) <span class="sc">%&gt;%</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_bill_ltd_ratio =</span> <span class="fu">mean</span>(bill_ltd_ratio),</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">median_bill_ltd_ratio =</span><span class="fu">median</span>(bill_ltd_ratio))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 2
+  mean_bill_ltd_ratio median_bill_ltd_ratio
+                &lt;dbl&gt;                 &lt;dbl&gt;
+1                2.95                  3.06</code></pre>
+</div>
+</div>
+</section>
+<section id="data-visualization" class="level1">
+<h1>Data Visualization</h1>
+</section>
 
 </main>
 <!-- /main column -->

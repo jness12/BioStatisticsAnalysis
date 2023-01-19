@@ -178,3 +178,288 @@ You can add options to executable code like this
 
 
 The `echo: false` option disables the printing of code (only output is displayed).
+
+# About our data
+
+The dats includes 8 features measured on 44 penguins. The features included are physiological features like bill length, bill depth, flipper length, body mass, etc. as well as other features like the year the penguin was observed, sex of the penguin, the island the penguin was observed on, and the species of the penguin.
+
+# Interesting Questions to Ask
+
+-   What is the average flipper length? What about for each species?
+
+-   Are there more male or female penguins? per island? per species?
+
+-   What is the average body mass? By species? By sex?
+
+-   What is the ratio of bill length to bill depth for a penguin? What is the overall average of this metric? Does it change by species, sex, or island?
+
+-   Does average body mass change by year?
+
+    # Data manipulation tools & strategies
+
+    We can look at individual columns in a data set or subsets of columns in a data set. For ex, we are only interested in flipper length and species we can select those columns.
+
+
+    ::: {.cell}
+    
+    ```{.r .cell-code}
+    penguins %>%
+      select (species, body_mass_g)
+    ```
+    
+    ::: {.cell-output .cell-output-stdout}
+    ```
+    # A tibble: 44 × 2
+       species body_mass_g
+       <chr>         <dbl>
+     1 Gentoo         6050
+     2 Gentoo         5800
+     3 Gentoo         5550
+     4 Gentoo         5500
+     5 Gentoo         5850
+     6 Gentoo         5950
+     7 Gentoo         5700
+     8 Gentoo         5350
+     9 Gentoo         5550
+    10 Gentoo         6300
+    # … with 34 more rows
+    ```
+    :::
+    :::
+
+
+If we want to filter and only show certain rows, we can do that too.
+
+
+::: {.cell}
+
+```{.r .cell-code}
+penguins %>%
+  filter (species == "chinstrap")
+```
+
+::: {.cell-output .cell-output-stdout}
+```
+# A tibble: 0 × 8
+# … with 8 variables: species <chr>, island <chr>, bill_length_mm <dbl>,
+#   bill_depth_mm <dbl>, flipper_length_mm <dbl>, body_mass_g <dbl>, sex <chr>,
+#   year <dbl>
+```
+:::
+:::
+
+
+# Answering our questions
+
+Most of our questions involve summarizing data, and perhaps summarizing over groups. We can summarize data using summarize() function, and group data using group_by().
+
+Lets find average flipper length
+
+
+::: {.cell}
+
+```{.r .cell-code}
+#overall average flipper length
+penguins %>%
+  summarize(avg_flipper_length = mean(flipper_length_mm)) 
+```
+
+::: {.cell-output .cell-output-stdout}
+```
+# A tibble: 1 × 1
+  avg_flipper_length
+               <dbl>
+1               212.
+```
+:::
+
+```{.r .cell-code}
+# Grouped Average
+penguins %>%
+  group_by(species) %>%
+  summarize(avg_flipper_length = mean(flipper_length_mm)) 
+```
+
+::: {.cell-output .cell-output-stdout}
+```
+# A tibble: 3 × 2
+  species   avg_flipper_length
+  <chr>                  <dbl>
+1 Adelie                  189.
+2 Chinstrap               200 
+3 Gentoo                  218.
+```
+:::
+:::
+
+
+How many of each species do we have?
+
+
+::: {.cell}
+
+```{.r .cell-code}
+penguins %>%
+  group_by(species) %>%
+  summarize (sex)
+```
+
+::: {.cell-output .cell-output-stderr}
+```
+`summarise()` has grouped output by 'species'. You can override using the
+`.groups` argument.
+```
+:::
+
+::: {.cell-output .cell-output-stdout}
+```
+# A tibble: 44 × 2
+# Groups:   species [3]
+   species   sex   
+   <chr>     <chr> 
+ 1 Adelie    male  
+ 2 Adelie    female
+ 3 Adelie    female
+ 4 Adelie    male  
+ 5 Adelie    male  
+ 6 Adelie    female
+ 7 Adelie    female
+ 8 Adelie    female
+ 9 Adelie    female
+10 Chinstrap male  
+# … with 34 more rows
+```
+:::
+
+```{.r .cell-code}
+penguins %>%
+  group_by(island) %>%
+  summarize(sex)
+```
+
+::: {.cell-output .cell-output-stderr}
+```
+`summarise()` has grouped output by 'island'. You can override using the
+`.groups` argument.
+```
+:::
+
+::: {.cell-output .cell-output-stdout}
+```
+# A tibble: 44 × 2
+# Groups:   island [3]
+   island sex  
+   <chr>  <chr>
+ 1 Biscoe male 
+ 2 Biscoe male 
+ 3 Biscoe male 
+ 4 Biscoe male 
+ 5 Biscoe male 
+ 6 Biscoe male 
+ 7 Biscoe male 
+ 8 Biscoe male 
+ 9 Biscoe male 
+10 Biscoe male 
+# … with 34 more rows
+```
+:::
+
+```{.r .cell-code}
+penguins %>%
+  count(sex)
+```
+
+::: {.cell-output .cell-output-stdout}
+```
+# A tibble: 2 × 2
+  sex        n
+  <chr>  <int>
+1 female    20
+2 male      24
+```
+:::
+:::
+
+
+we can use mutate() to add new columns to our data set.
+
+
+::: {.cell}
+
+```{.r .cell-code}
+penguins %>%
+  mutate(bill_ltd_ratio = bill_length_mm / bill_depth_mm) %>%
+  summarize (mean_bill_ltd_ratio = mean(bill_ltd_ratio),
+             median_bill_ltd_ratio =median(bill_ltd_ratio))
+```
+
+::: {.cell-output .cell-output-stdout}
+```
+# A tibble: 1 × 2
+  mean_bill_ltd_ratio median_bill_ltd_ratio
+                <dbl>                 <dbl>
+1                2.95                  3.06
+```
+:::
+:::
+
+::: {.cell}
+
+```{.r .cell-code}
+penguins %>%
+  mutate(bill_ltd_ratio = bill_length_mm / bill_depth_mm) %>%
+  summarize(mean_bill_ltd_ratio = mean(bill_ltd_ratio),
+             median_bill_ltd_ratio =median(bill_ltd_ratio))
+```
+
+::: {.cell-output .cell-output-stdout}
+```
+# A tibble: 1 × 2
+  mean_bill_ltd_ratio median_bill_ltd_ratio
+                <dbl>                 <dbl>
+1                2.95                  3.06
+```
+:::
+:::
+
+::: {.cell}
+
+```{.r .cell-code}
+penguins %>%
+  group_by(year)%>%
+  summarize(mean_body_mass = mean(body_mass_g))
+```
+
+::: {.cell-output .cell-output-stdout}
+```
+# A tibble: 3 × 2
+   year mean_body_mass
+  <dbl>          <dbl>
+1  2007          5079.
+2  2008          4929.
+3  2009          4518.
+```
+:::
+:::
+
+::: {.cell}
+
+```{.r .cell-code}
+penguins %>%
+  mutate(bill_ltd_ratio = bill_length_mm / bill_depth_mm) %>%
+  summarize(mean_bill_ltd_ratio = mean(bill_ltd_ratio),
+             median_bill_ltd_ratio =median(bill_ltd_ratio))
+```
+
+::: {.cell-output .cell-output-stdout}
+```
+# A tibble: 1 × 2
+  mean_bill_ltd_ratio median_bill_ltd_ratio
+                <dbl>                 <dbl>
+1                2.95                  3.06
+```
+:::
+:::
+
+
+# Data Visualization
