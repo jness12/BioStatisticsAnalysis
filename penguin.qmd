@@ -138,3 +138,51 @@ penguins %>%
 ```
 
 # Data Visualization
+
+-   What is the distribution of penguin flipper length?
+
+-   What is the distribution of penguin species
+
+-   Does the distribution of flipper length depend on the species of penguin?
+
+-   
+
+```{r}
+penguins %>%
+  ggplot() +
+  geom_bar(mapping = aes(x = species)) +
+  labs(title ="Counts of Penguin Species",
+       x = "Species", y = "Count")
+```
+
+```{r}
+penguins %>%
+  ggplot() +
+  geom_histogram(mapping = aes(x = flipper_length_mm),
+                 bins = 15,
+                 color = "black",
+                 fill = "purple") +
+  labs(title ="Distribution of Flipper Lengths",
+       x = "Flipper Length (mm)", y = "Count") +
+geom_vline(aes(xintercept = mean(flipper_length_mm)), lwd = 2, lty = "dashed")
+
+```
+
+We will now look at the distribution of species.
+
+```{r}
+penguins %>%
+  ggplot() +
+  geom_bar(mapping = aes(x = species)), color = pink", fill = "black") +
+  labs(title = "Counts of Penguin Species")
+x= "Species", y= "Count")
+```
+
+Let's make a scatter plot to see if bill length is correlated with bill depth.
+
+```{r}
+penguins %>%
+  ggplot() +
+  geom_point(aes(x = bill_length_mm, y = bill_depth_mm, color = species)) +
+  geom_smooth(aes(x = bill_length_mm, y = bill_depth_mm, color = species), method = "lm")
+```
