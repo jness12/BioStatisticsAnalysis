@@ -141,11 +141,11 @@ penguins %>%
 
 -   What is the distribution of penguin flipper length?
 
--   What is the distribution of penguin species
+-   What is the distribution of penguin species?
+
+    -   The Gentoo penguins have the most followed by Adelie and then the chinstrap.
 
 -   Does the distribution of flipper length depend on the species of penguin?
-
--   
 
 ```{r}
 penguins %>%
@@ -154,6 +154,8 @@ penguins %>%
   labs(title ="Counts of Penguin Species",
        x = "Species", y = "Count")
 ```
+
+The count for Gentoo penguins is around 33. The count for Adelie is around 9. The count for Chinstrap penguins is around 1.
 
 ```{r}
 penguins %>%
@@ -167,6 +169,10 @@ penguins %>%
 geom_vline(aes(xintercept = mean(flipper_length_mm)), lwd = 2, lty = "dashed")
 
 ```
+
+# Mean Flipper Length
+
+It looks like the mean flipper length among all the penguin species is 212mm.
 
 We will now look at the distribution of species.
 
@@ -186,3 +192,147 @@ penguins %>%
   geom_point(aes(x = bill_length_mm, y = bill_depth_mm, color = species)) +
   geom_smooth(aes(x = bill_length_mm, y = bill_depth_mm, color = species), method = "lm")
 ```
+
+# Bill length in correlation to bill depth
+
+It looks like there could be a correlation in bill length to depth, however it could just be a coincidence the points fall close in line since it is not consistent. For example in the Gentoo penguins there are a few points that fall nearly on the solid line and others that are further away from it.
+
+```{r}
+penguins %>%
+  summarize(average_bill_length = mean(bill_length_mm))
+
+```
+
+```{r}
+n_samps <- 1000
+sample_means <- rep(NA, n_samps)
+for(i in 1:n_samps){
+  my_samp <- penguins %>%
+    sample_n(nrow(penguins), replace = TRUE)
+  sample_means[i] <- my_samp %>%
+    summarize(mean = mean(flipper_length_mm, na.rm = TRUE)) %>%
+    pull(mean)
+}
+
+ggplot() +
+  geom_histogram(aes(x = sample_means)) +
+  labs(title = "Distribution of Bootstrap Samples",
+       x = "Sample Mean Flipper Lengths (mm)", y = "")
+
+```
+
+# Bootstrap samples
+
+Here we are treating our sample (mean flipper lengths) as if it were the population. This distribution seems to follow a normal one, therefore follows the central limit theorem.
+
+```{r}
+ggplot() +
+  geom_histogram(aes(x = sample_means)) +
+  geom_vline(aes(xintercept = quantile(sample_means, 0.025)),
+             color = "blue",
+             lwd = 1.5,
+             linetype = "dashed") +
+    geom_vline(aes(xintercept = quantile(sample_means, 0.975)),
+             color = "blue",
+             lwd = 1.5,
+             linetype = "dashed") +
+  labs(title = "Distribution of Bootstrap Samples",
+       x = "Sample Mean Flipper Lengths (mm)",
+       y = "")
+```
+
+```{r}
+num_samps <- 1000
+bootstrapped_mean_lengths <- rep(NA, num_samps)
+
+for(i in 1:num_samps){
+  my_samp <- rnorm(nrow(penguins), 200, 5)
+  bootstrapped_mean_lengths[i] <- mean(my_samp)
+  }
+my_mean_flipper_length <- penguins %>%
+  summarize(mean = mean(flipper_length_mm, na.rm = TRUE)) %>%
+
+
+```
+
+```{r}
+num_samps <- 1000
+bootstrapped_mean_lengths <- rep(NA, num_samps)
+
+for(i in 1:num_samps){
+  my_samp <- rnorm(nrow(penguins), 200, 5)
+  bootstrapped_mean_lengths[i] <- mean(my_samp)
+  }
+
+my_mean_flipper_length <- penguins %>%
+  summarize(mean = mean(flipper_length_mm, na.rm = TRUE)) %>%
+  pull(mean)
+
+ggplot() + 
+  geom_histogram(aes(x = bootstrapped_mean_lengths)) +
+  geom_vline(aes(xintercept = my_mean_flipper_length), 
+             color = "blue",
+             lwd = 1.5,
+             linetype = "dashed") +
+  labs(title = "Bootstrapped Hypothesis Test",
+       subtitle = "Mean Flipper Length",
+       x = "Bootstrapped Mean Flipper Lengths (~N(200, 5))",
+       Y = "")
+```
+
+The hypothesis test looks outside of our distribution sample
+
+```{r}
+num_extreme <- sum(bootstrapped_mean_lengths >= my_mean_flipper_length)
+
+bootstrapped_p_value <- 2*(num_extreme / num_samps)
+bootstrapped_p_value
+```
+
+```{r}
+my_female_avg_flipper_length <- penguins %>%
+  filter(sex == "female") %>%
+  summarize(mean = mean(flipper_length_mm, na.rm = TRUE)) %>%
+  pull(mean)
+
+my_male_avg_flipper_length <- penguins %>%
+  filter(sex == "male") %>%
+  summarize(mean = mean(flipper_length_mm, na.rm = TRUE)) %>%
+  pull(mean)
+
+my_difference <- my_male_avg_flipper_length - my_female_avg_flipper_length
+
+#Bootstrap Permutations
+num_samps <- 1000
+independent_differences <- rep(NA, num_samps)
+
+for(i in 1:num_samps){
+  penguins_reassigned <- penguins %>%
+    mutate(sex = sample(sex, nrow(penguins), replace = FALSE))
+  
+  fem_avg <- penguins_reassigned %>%
+    filter(sex == "female") %>%
+    summarize(mean = mean(flipper_length_mm, na.rm = TRUE)) %>%
+    pull(mean)
+  
+  male_avg <- penguins_reassigned %>%
+    filter(sex == "male") %>%
+    summarize(mean = mean(flipper_length_mm, na.rm = TRUE)) %>%
+    pull(mean)
+  
+  independent_differences[i] <- male_avg - fem_avg
+}
+
+ggplot() + 
+  geom_histogram(aes(x = independent_differences)) +
+  geom_vline(aes(xintercept = my_difference),
+             color = "blue",
+             lwd = 1.5,
+             linetype = "dashed") +
+  labs(title = "Permutation Test",
+       subtitle = "Difference in Flipper Lengths by Sex",
+       x = "Difference in Flipper Lengths (mm)",
+       y = "")
+```
+
+This is outside of our sample distribution.
