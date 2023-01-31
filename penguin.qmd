@@ -180,8 +180,7 @@ We will now look at the distribution of species.
 penguins %>%
   ggplot() +
   geom_bar(mapping = aes(x = species)), color = pink", fill = "black") +
-  labs(title = "Counts of Penguin Species")
-x= "Species", y= "Count")
+  labs(title = "Counts of Penguin Species"),x= "Species", y= "Count")
 ```
 
 Let's make a scatter plot to see if bill length is correlated with bill depth.

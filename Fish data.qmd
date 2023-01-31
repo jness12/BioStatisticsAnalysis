@@ -1,0 +1,84 @@
+---
+title: "Great Lakes Fish"
+author: Jennessa Brunette
+format: html
+editor: visual
+execute: 
+  keep-md: true
+---
+
+## Fish
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+## Running Code
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+#Load the tidyverse
+library(tidyverse)
+library(kableExtra)
+
+```
+
+You can add options to executable code like this
+
+```{r}
+fishing <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-06-08/fishing.csv')
+stocked <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-06-08/stocked.csv')
+
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
+
+```{r}
+#install.packages("tidymodels")
+library(tidymodels)
+
+my_data_splits <- initial_split(fishing, prop = 0.5)
+
+exploratory_data <- training(my_data_splits)
+test_data <- testing(my_data_splits)
+
+```
+
+```{r}
+fishing %>%
+  select (species, grand_total)
+```
+
+```{r}
+fishing %>%
+  group_by(lake) 
+```
+
+```{r}
+penguins %>%
+  filter (lake == "Erie")
+```
+
+# How many of each species do we have by region?
+
+```{r}
+fishing%>%
+  group_by(species) %>%
+  summarize(region)
+fishing %>%
+  group_by(lake) %>%
+  summarize(region)
+fishing %>%
+  count(region)
+
+```
+
+```{r}
+exploratory_data %>%
+  ggplot() +
+  geom_bar(mapping = aes(x = species)) +
+  labs(title ="Species by Region",
+       x = "Species", y = "Region") +
+  coord_flip()
+```
+
+Do species of fish vary per lake?
