@@ -9,8 +9,6 @@ execute:
 
 ## Fish
 
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
-
 ## Running Code
 
 When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
@@ -40,7 +38,40 @@ my_data_splits <- initial_split(fishing, prop = 0.5)
 
 exploratory_data <- training(my_data_splits)
 test_data <- testing(my_data_splits)
+```
 
+# About Our Data
+
+This data includes 5 main variables of the fishing data set regarding the 51 Great Lakes fish species observed. The variables include year of measurement, species of fish, region of the U.S, lake name, and grand total of observed.
+
+# Interesting Questions to ask
+
+-   Which lake has the most variety of species?
+
+-   Will the species of fish change in each region every year?
+
+-   How many of each species do we have? by region?
+
+# Hypothesis
+
+-   I hypothesize the average number of species will increase by year
+
+-   I hypothesize the average number of species per lake will increase by year.
+
+<!-- -->
+
+This table shows the number of observed species. There are 51 species.
+
+```{r}
+exploratory_data %>%
+  count(species)
+```
+
+```{r}
+#install.packages("skimr")
+library(skimr)
+exploratory_data %>%
+  skim()
 ```
 
 ```{r}
@@ -48,14 +79,29 @@ fishing %>%
   select (species, grand_total)
 ```
 
-```{r}
-fishing %>%
-  group_by(lake) 
-```
+# Which Lake has the most variety of species?
+
+# Hypothesis Answered:
 
 ```{r}
-penguins %>%
-  filter (lake == "Erie")
+fishing %>%
+  group_by(lake, year, species) %>%
+  summarize(total_observed = sum(grand_total, rm.na = TRUE)) %>%
+  mutate(total_observed = ifelse(is.na(total_observed), 0, total_observed))%>%
+  filter(total_observed >0)%>%
+  summarize(number_species = n()) %>%
+  ggplot() + geom_line(aes(x = year, y = number_species, color = lake))
+```
+
+This graph answers my question. It shows which lakes have more species than others. For example, lake Erie seemed to have the most number of species around 1995 but then during the 2000s experienced a decline. It now looks like during 2008 lake Erie and lake Huron had very similar number of species present.
+
+In regards to my hypothesis this graph also provides insight into that. This graph tells us as time progresses, number of species in each lake also progress. However there are some exceptions where the number of species decline during a time period. For example, around 1895 lake superior experienced a decrease in number of species observed. Overall from this graph I can accept my hypothesis that the average number of species will increase over the years. But I cannot say that the species will increase each year, since the data here shows some years species experienced a decline.
+
+In regards to the decline in species some years, I can assume this could be due to natural selection or over fishing.
+
+```{r}
+fishing %>%
+  filter(lake == "Erie")
 ```
 
 # How many of each species do we have by region?
@@ -75,10 +121,14 @@ fishing %>%
 ```{r}
 exploratory_data %>%
   ggplot() +
-  geom_bar(mapping = aes(x = species)) +
+  geom_bar(mapping = aes(x = species))+
   labs(title ="Species by Region",
        x = "Species", y = "Region") +
   coord_flip()
 ```
 
-Do species of fish vary per lake?
+It looks like the white fish have the most species by region. Sheepshead looks like it has the smallest amount of species by region.
+
+I found this question interesting to ask because there is a lot of data here and to see the species categorized into each region was helpful to see laid out and made me more aware of how many species of great lakes fish there are.
+
+# 
