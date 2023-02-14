@@ -9,11 +9,7 @@ execute:
 
 
 
-## Fish
-
-## Running Code
-
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+## Great Lake Fish Analysis
 
 
 ::: {.cell}
@@ -140,7 +136,7 @@ library(tidymodels)
 ✖ dplyr::lag()             masks stats::lag()
 ✖ yardstick::spec()        masks readr::spec()
 ✖ recipes::step()          masks stats::step()
-• Dig deeper into tidy modeling with R at https://www.tmwr.org
+• Use suppressPackageStartupMessages() to eliminate package startup messages
 ```
 :::
 
@@ -163,7 +159,7 @@ This data includes 5 main variables of the fishing data set regarding the 51 Gre
 
 -   Will the species of fish change in each region every year?
 
--   How many of each species do we have? by region?
+-   How many of each fish species do we have? by region?
 
 # Hypothesis
 
@@ -171,7 +167,7 @@ This data includes 5 main variables of the fishing data set regarding the 51 Gre
 
 -   I hypothesize the average number of species per lake will increase by year.
 
-<!-- -->
+-   I hypothesize there will be a greater variety of species as time goes on.
 
 This table shows the number of observed species. There are 51 species.
 
@@ -188,16 +184,16 @@ exploratory_data %>%
 # A tibble: 51 × 2
    species          n
    <chr>        <int>
- 1 Alewife        264
- 2 Amercian Eel   130
- 3 American Eel    26
- 4 Blue Pike      370
- 5 Bowfin         184
- 6 Buffalo        226
- 7 Bullhead        24
- 8 Bullheads     1205
- 9 Burbot        1214
-10 Carp          1565
+ 1 Alewife        278
+ 2 Amercian Eel   144
+ 3 American Eel    27
+ 4 Blue Pike      393
+ 5 Bowfin         180
+ 6 Buffalo        231
+ 7 Bullhead        20
+ 8 Bullheads     1185
+ 9 Burbot        1282
+10 Carp          1610
 # … with 41 more rows
 ```
 :::
@@ -295,12 +291,12 @@ exploratory_data %>%
   </tr>
   <tr>
    <td style="text-align:left;"> comments </td>
-   <td style="text-align:right;"> 30086 </td>
+   <td style="text-align:right;"> 30101 </td>
    <td style="text-align:right;"> 0.08 </td>
    <td style="text-align:right;"> 3 </td>
    <td style="text-align:right;"> 607 </td>
    <td style="text-align:right;"> 0 </td>
-   <td style="text-align:right;"> 161 </td>
+   <td style="text-align:right;"> 159 </td>
    <td style="text-align:right;"> 0 </td>
   </tr>
   <tr>
@@ -340,39 +336,39 @@ exploratory_data %>%
    <td style="text-align:left;"> year </td>
    <td style="text-align:right;"> 0 </td>
    <td style="text-align:right;"> 1.00 </td>
-   <td style="text-align:right;"> 1954.61 </td>
-   <td style="text-align:right;"> 38.64 </td>
+   <td style="text-align:right;"> 1954.48 </td>
+   <td style="text-align:right;"> 38.70 </td>
    <td style="text-align:right;"> 1867 </td>
-   <td style="text-align:right;"> 1923.00 </td>
-   <td style="text-align:right;"> 1958 </td>
-   <td style="text-align:right;"> 1989 </td>
+   <td style="text-align:right;"> 1922 </td>
+   <td style="text-align:right;"> 1958.00 </td>
+   <td style="text-align:right;"> 1989.00 </td>
    <td style="text-align:right;"> 2015 </td>
    <td style="text-align:left;"> ▂▆▆▇▇ </td>
   </tr>
   <tr>
    <td style="text-align:left;"> grand_total </td>
-   <td style="text-align:right;"> 15844 </td>
+   <td style="text-align:right;"> 15859 </td>
    <td style="text-align:right;"> 0.52 </td>
-   <td style="text-align:right;"> 1382.18 </td>
-   <td style="text-align:right;"> 3526.29 </td>
+   <td style="text-align:right;"> 1434.74 </td>
+   <td style="text-align:right;"> 3634.29 </td>
    <td style="text-align:right;"> 0 </td>
-   <td style="text-align:right;"> 9.27 </td>
-   <td style="text-align:right;"> 106 </td>
-   <td style="text-align:right;"> 933 </td>
+   <td style="text-align:right;"> 10 </td>
+   <td style="text-align:right;"> 108.35 </td>
+   <td style="text-align:right;"> 970.75 </td>
    <td style="text-align:right;"> 48821 </td>
    <td style="text-align:left;"> ▇▁▁▁▁ </td>
   </tr>
   <tr>
    <td style="text-align:left;"> values </td>
-   <td style="text-align:right;"> 10929 </td>
+   <td style="text-align:right;"> 10989 </td>
    <td style="text-align:right;"> 0.67 </td>
-   <td style="text-align:right;"> 515.76 </td>
-   <td style="text-align:right;"> 1871.04 </td>
-   <td style="text-align:right;"> -31 </td>
-   <td style="text-align:right;"> 0.00 </td>
-   <td style="text-align:right;"> 17 </td>
-   <td style="text-align:right;"> 214 </td>
-   <td style="text-align:right;"> 45548 </td>
+   <td style="text-align:right;"> 520.77 </td>
+   <td style="text-align:right;"> 1878.32 </td>
+   <td style="text-align:right;"> -1 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 16.00 </td>
+   <td style="text-align:right;"> 220.00 </td>
+   <td style="text-align:right;"> 48405 </td>
    <td style="text-align:left;"> ▇▁▁▁▁ </td>
   </tr>
 </tbody>
@@ -408,9 +404,7 @@ fishing %>%
 :::
 
 
-# Which Lake has the most variety of species?
-
-# Hypothesis Answered:
+# Answering our questions & Hypothesis
 
 
 ::: {.cell}
@@ -440,11 +434,15 @@ fishing %>%
 :::
 
 
-This graph answers my question. It shows which lakes have more species than others. For example, lake Erie seemed to have the most number of species around 1995 but then during the 2000s experienced a decline. It now looks like during 2008 lake Erie and lake Huron had very similar number of species present.
+This graph shows which lakes have more species than others. For example, lake Erie seemed to have the most number of species around 1995 but then during the 2000s experienced a decline. It now looks like during 2009 lake Erie and lake Huron had very similar number of species present.
 
-In regards to my hypothesis this graph also provides insight into that. This graph tells us as time progresses, number of species in each lake also progress. However there are some exceptions where the number of species decline during a time period. For example, around 1895 lake superior experienced a decrease in number of species observed. Overall from this graph I can accept my hypothesis that the average number of species will increase over the years. But I cannot say that the species will increase each year, since the data here shows some years species experienced a decline.
+In regards to my hypothesis this graph also provides insight into that. This graph tells us as time progresses, number of species in each lake also progress. However there are some exceptions where the number of species decline during a time period. For example, around 1895 lake superior experienced a decrease in number of species observed.
+
+Overall from this graph I can accept my hypothesis that the number of species will increase over the years and there will be more variety in species. But, I cannot say that the species will increase every year, since the data here shows some years species experienced a decline.
 
 In regards to the decline in species some years, I can assume this could be due to natural selection or over fishing.
+
+# Number of species per year in Lake Erie
 
 
 ::: {.cell}
@@ -474,6 +472,8 @@ fishing %>%
 :::
 :::
 
+
+This table shows the variety of species observed in lake Erie by year.
 
 # How many of each species do we have by region?
 
@@ -574,11 +574,10 @@ fishing %>%
 ::: {.cell}
 
 ```{.r .cell-code}
-exploratory_data %>%
-  ggplot() +
-  geom_bar(mapping = aes(x = species))+
-  labs(title ="Species by Region",
-       x = "Species", y = "Region") +
+fishing%>%
+ggplot() +
+  geom_bar(aes(x = region),
+               color = "pink", fill = "purple") +
   coord_flip()
 ```
 
@@ -588,8 +587,26 @@ exploratory_data %>%
 :::
 
 
-It looks like the white fish have the most species by region. Sheepshead looks like it has the smallest amount of species by region.
+This graph corresponds to the previous table. Here we can see the count of species by region. It looks like Canada has the highest count of 7479 fish. I assume this is because Canada's border runs along Lake superior, Huron, Ontario and Erie.
 
-I found this question interesting to ask because there is a lot of data here and to see the species categorized into each region was helpful to see laid out and made me more aware of how many species of great lakes fish there are.
 
-# 
+::: {.cell}
+
+```{.r .cell-code}
+fishing %>%
+  ggplot() +
+  geom_bar(mapping = aes(x = species)) +
+  labs(title ="Counts of Fish Species",
+       x = "Species", y = "Count") +
+coord_flip()
+```
+
+::: {.cell-output-display}
+![](Fish-data_files/figure-html/unnamed-chunk-11-1.png){width=672}
+:::
+:::
+
+
+This graph shows us visually how many of each fish species we have. From this graph I can tell Whitefish has the most species, followed by Walleye and then Northern Pike. Sheepshead has the lowest number of species.
+
+I found this question interesting to ask because there is a lot of species of fish among the great lakes. It was helpful to see the species laid out and made me more aware of how many species of fish are in the Great Lakes

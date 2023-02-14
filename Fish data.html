@@ -130,12 +130,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<section id="fish" class="level2">
-<h2 class="anchored" data-anchor-id="fish">Fish</h2>
-</section>
-<section id="running-code" class="level2">
-<h2 class="anchored" data-anchor-id="running-code">Running Code</h2>
-<p>When you click the <strong>Render</strong> button a document will be generated that includes both content and the output of embedded code. You can embed code like this:</p>
+<section id="great-lake-fish-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="great-lake-fish-analysis">Great Lake Fish Analysis</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Load the tidyverse</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -214,7 +210,7 @@ dbl (14): SID, YEAR, MONTH, DAY, LATITUDE, LONGITUDE, GRID, NO_STOCKED, YEAR...
 ✖ dplyr::lag()             masks stats::lag()
 ✖ yardstick::spec()        masks readr::spec()
 ✖ recipes::step()          masks stats::step()
-• Dig deeper into tidy modeling with R at https://www.tmwr.org</code></pre>
+• Use suppressPackageStartupMessages() to eliminate package startup messages</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>my_data_splits <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(fishing, <span class="at">prop =</span> <span class="fl">0.5</span>)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -231,7 +227,7 @@ dbl (14): SID, YEAR, MONTH, DAY, LATITUDE, LONGITUDE, GRID, NO_STOCKED, YEAR...
 <ul>
 <li><p>Which lake has the most variety of species?</p></li>
 <li><p>Will the species of fish change in each region every year?</p></li>
-<li><p>How many of each species do we have? by region?</p></li>
+<li><p>How many of each fish species do we have? by region?</p></li>
 </ul>
 </section>
 <section id="hypothesis" class="level1">
@@ -239,8 +235,8 @@ dbl (14): SID, YEAR, MONTH, DAY, LATITUDE, LONGITUDE, GRID, NO_STOCKED, YEAR...
 <ul>
 <li><p>I hypothesize the average number of species will increase by year</p></li>
 <li><p>I hypothesize the average number of species per lake will increase by year.</p></li>
+<li><p>I hypothesize there will be a greater variety of species as time goes on.</p></li>
 </ul>
-<!-- -->
 <p>This table shows the number of observed species. There are 51 species.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>exploratory_data <span class="sc">%&gt;%</span></span>
@@ -249,16 +245,16 @@ dbl (14): SID, YEAR, MONTH, DAY, LATITUDE, LONGITUDE, GRID, NO_STOCKED, YEAR...
 <pre><code># A tibble: 51 × 2
    species          n
    &lt;chr&gt;        &lt;int&gt;
- 1 Alewife        264
- 2 Amercian Eel   130
- 3 American Eel    26
- 4 Blue Pike      370
- 5 Bowfin         184
- 6 Buffalo        226
- 7 Bullhead        24
- 8 Bullheads     1205
- 9 Burbot        1214
-10 Carp          1565
+ 1 Alewife        278
+ 2 Amercian Eel   144
+ 3 American Eel    27
+ 4 Blue Pike      393
+ 5 Bowfin         180
+ 6 Buffalo        231
+ 7 Bullhead        20
+ 8 Bullheads     1185
+ 9 Burbot        1282
+10 Carp          1610
 # … with 41 more rows</code></pre>
 </div>
 </div>
@@ -435,7 +431,7 @@ species
 comments
 </td>
 <td style="text-align:right;">
-30086
+30101
 </td>
 <td style="text-align:right;">
 0.08
@@ -450,7 +446,7 @@ comments
 0
 </td>
 <td style="text-align:right;">
-161
+159
 </td>
 <td style="text-align:right;">
 0
@@ -537,22 +533,22 @@ year
 1.00
 </td>
 <td style="text-align:right;">
-1954.61
+1954.48
 </td>
 <td style="text-align:right;">
-38.64
+38.70
 </td>
 <td style="text-align:right;">
 1867
 </td>
 <td style="text-align:right;">
-1923.00
+1922
 </td>
 <td style="text-align:right;">
-1958
+1958.00
 </td>
 <td style="text-align:right;">
-1989
+1989.00
 </td>
 <td style="text-align:right;">
 2015
@@ -566,28 +562,28 @@ year
 grand_total
 </td>
 <td style="text-align:right;">
-15844
+15859
 </td>
 <td style="text-align:right;">
 0.52
 </td>
 <td style="text-align:right;">
-1382.18
+1434.74
 </td>
 <td style="text-align:right;">
-3526.29
+3634.29
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-9.27
+10
 </td>
 <td style="text-align:right;">
-106
+108.35
 </td>
 <td style="text-align:right;">
-933
+970.75
 </td>
 <td style="text-align:right;">
 48821
@@ -601,31 +597,31 @@ grand_total
 values
 </td>
 <td style="text-align:right;">
-10929
+10989
 </td>
 <td style="text-align:right;">
 0.67
 </td>
 <td style="text-align:right;">
-515.76
+520.77
 </td>
 <td style="text-align:right;">
-1871.04
+1878.32
 </td>
 <td style="text-align:right;">
--31
+-1
 </td>
 <td style="text-align:right;">
-0.00
+0
 </td>
 <td style="text-align:right;">
-17
+16.00
 </td>
 <td style="text-align:right;">
-214
+220.00
 </td>
 <td style="text-align:right;">
-45548
+48405
 </td>
 <td style="text-align:left;">
 ▇▁▁▁▁
@@ -657,11 +653,8 @@ values
 </div>
 </div>
 </section>
-<section id="which-lake-has-the-most-variety-of-species" class="level1">
-<h1>Which Lake has the most variety of species?</h1>
-</section>
-<section id="hypothesis-answered" class="level1">
-<h1>Hypothesis Answered:</h1>
+<section id="answering-our-questions-hypothesis" class="level1">
+<h1>Answering our questions &amp; Hypothesis</h1>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>fishing <span class="sc">%&gt;%</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(lake, year, species) <span class="sc">%&gt;%</span></span>
@@ -680,9 +673,13 @@ values
 <p><img src="Fish-data_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>This graph answers my question. It shows which lakes have more species than others. For example, lake Erie seemed to have the most number of species around 1995 but then during the 2000s experienced a decline. It now looks like during 2008 lake Erie and lake Huron had very similar number of species present.</p>
-<p>In regards to my hypothesis this graph also provides insight into that. This graph tells us as time progresses, number of species in each lake also progress. However there are some exceptions where the number of species decline during a time period. For example, around 1895 lake superior experienced a decrease in number of species observed. Overall from this graph I can accept my hypothesis that the average number of species will increase over the years. But I cannot say that the species will increase each year, since the data here shows some years species experienced a decline.</p>
+<p>This graph shows which lakes have more species than others. For example, lake Erie seemed to have the most number of species around 1995 but then during the 2000s experienced a decline. It now looks like during 2009 lake Erie and lake Huron had very similar number of species present.</p>
+<p>In regards to my hypothesis this graph also provides insight into that. This graph tells us as time progresses, number of species in each lake also progress. However there are some exceptions where the number of species decline during a time period. For example, around 1895 lake superior experienced a decrease in number of species observed.</p>
+<p>Overall from this graph I can accept my hypothesis that the number of species will increase over the years and there will be more variety in species. But, I cannot say that the species will increase every year, since the data here shows some years species experienced a decline.</p>
 <p>In regards to the decline in species some years, I can assume this could be due to natural selection or over fishing.</p>
+</section>
+<section id="number-of-species-per-year-in-lake-erie" class="level1">
+<h1>Number of species per year in Lake Erie</h1>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>fishing <span class="sc">%&gt;%</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(lake <span class="sc">==</span> <span class="st">"Erie"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -703,6 +700,7 @@ values
 # … with 14,624 more rows</code></pre>
 </div>
 </div>
+<p>This table shows the variety of species observed in lake Erie by year.</p>
 </section>
 <section id="how-many-of-each-species-do-we-have-by-region" class="level1">
 <h1>How many of each species do we have by region?</h1>
@@ -775,21 +773,29 @@ values
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>exploratory_data <span class="sc">%&gt;%</span></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> species))<span class="sc">+</span></span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span><span class="st">"Species by Region"</span>,</span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Species"</span>, <span class="at">y =</span> <span class="st">"Region"</span>) <span class="sc">+</span></span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>fishing<span class="sc">%&gt;%</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">x =</span> region),</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">color =</span> <span class="st">"pink"</span>, <span class="at">fill =</span> <span class="st">"purple"</span>) <span class="sc">+</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="Fish-data_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>It looks like the white fish have the most species by region. Sheepshead looks like it has the smallest amount of species by region.</p>
-<p>I found this question interesting to ask because there is a lot of data here and to see the species categorized into each region was helpful to see laid out and made me more aware of how many species of great lakes fish there are.</p>
-</section>
-<section id="section" class="level1">
-<h1></h1>
+<p>This graph corresponds to the previous table. Here we can see the count of species by region. It looks like Canada has the highest count of 7479 fish. I assume this is because Canada’s border runs along Lake superior, Huron, Ontario and Erie.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>fishing <span class="sc">%&gt;%</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> species)) <span class="sc">+</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span><span class="st">"Counts of Fish Species"</span>,</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Species"</span>, <span class="at">y =</span> <span class="st">"Count"</span>) <span class="sc">+</span></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a><span class="fu">coord_flip</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Fish-data_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>This graph shows us visually how many of each fish species we have. From this graph I can tell Whitefish has the most species, followed by Walleye and then Northern Pike. Sheepshead has the lowest number of species.</p>
+<p>I found this question interesting to ask because there is a lot of species of fish among the great lakes. It was helpful to see the species laid out and made me more aware of how many species of fish are in the Great Lakes</p>
 </section>
 
 </main>
