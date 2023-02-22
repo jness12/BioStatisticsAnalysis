@@ -16,8 +16,6 @@ library(kableExtra)
 
 ```
 
-You can add options to executable code like this
-
 ```{r}
 fishing <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-06-08/fishing.csv')
 stocked <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-06-08/stocked.csv')
@@ -36,17 +34,17 @@ exploratory_data <- training(my_data_splits)
 test_data <- testing(my_data_splits)
 ```
 
-# About Our Data
+# Introduction
 
-This data includes 5 main variables of the fishing data set regarding the 51 Great Lakes fish species observed. The variables include year of measurement, species of fish, region of the U.S, lake name, and grand total of observed.
+The data I will be using is from Great Lakes Fishery Commission and was collected as early as 1867. The data had two sets of variables to look at- fishing and stocked data. This data includes 5 main variables from the fishing data set regarding the 51 Great Lakes fish species observed. The variables include year of measurement, species of fish, region of the U.S, lake name, and grand total of observed.
 
 # Interesting Questions to ask
 
 -   Which lake has the most variety of species?
 
--   Will the species of fish change in each region every year?
+-   How many of each fish species do we have by region?
 
--   How many of each fish species do we have? by region?
+-   What is the total amount of observed fish among the great lake fish species?
 
 # Hypothesis
 
@@ -75,7 +73,7 @@ fishing %>%
   select (species, grand_total)
 ```
 
-# Answering our questions & Hypothesis
+# Which lake has the most variety of species?
 
 ```{r}
 fishing %>%
@@ -95,16 +93,7 @@ Overall from this graph I can accept my hypothesis that the number of species wi
 
 In regards to the decline in species some years, I can assume this could be due to natural selection or over fishing.
 
-# Number of species per year in Lake Erie
-
-```{r}
-fishing %>%
-  filter(lake == "Erie")
-```
-
-This table shows the variety of species observed in lake Erie by year.
-
-# How many of each species do we have by region?
+# How many of each fish species do we have by region?
 
 ```{r}
 fishing%>%
@@ -126,7 +115,9 @@ ggplot() +
   
 ```
 
-This graph corresponds to the previous table. Here we can see the count of species by region. It looks like Canada has the highest count of 7479 fish. I assume this is because Canada's border runs along Lake superior, Huron, Ontario and Erie.
+This graph corresponds to the previous table. Here we can see the count of species by region. It looks like Canada has the highest count of 7479 fish. I assume this is because Canada's border runs along Lake superior, Huron, Ontario and Erie. Minnesota has the least amount of observed species.
+
+# What is the total amount of observed fish among the great lakes fish species?
 
 ```{r}
 fishing %>%
@@ -137,6 +128,6 @@ fishing %>%
 coord_flip()
 ```
 
-This graph shows us visually how many of each fish species we have. From this graph I can tell Whitefish has the most species, followed by Walleye and then Northern Pike. Sheepshead has the lowest number of species.
+This graph shows us visually how many of each fish species we have among the Great Lakes. From this graph I can tell Whitefish has the most species, followed by Walleye and then Northern Pike. Sheepshead has the lowest number of species.
 
-I found this question interesting to ask because there is a lot of species of fish among the great lakes. It was helpful to see the species laid out and made me more aware of how many species of fish are in the Great Lakes
+I found this question interesting to ask because there is a lot of species of fish among the great lakes. It was helpful to see the species laid out and made me more aware of how many species of fish are in the Great Lakes.
