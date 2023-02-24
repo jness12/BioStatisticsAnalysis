@@ -36,7 +36,7 @@ test_data <- testing(my_data_splits)
 
 # Introduction
 
-The data I will be using is from Great Lakes Fishery Commission and was collected as early as 1867. The data had two sets of variables to look at- fishing and stocked data. This data includes 5 main variables from the fishing data set regarding the 51 Great Lakes fish species observed. The variables include year of measurement, species of fish, region of the U.S, lake name, and grand total of observed.
+The data I will be using is from Great Lakes Fishery Commission and was collected as early as 1867. The data had two sets of variables to look at: fishing and stocked data. This data includes 5 main variables from the fishing data set regarding the 51 Great Lakes fish species observed. The variables include year of measurement, species of fish, region of the U.S, lake name, and grand total of observed.
 
 # Interesting Questions to ask
 
@@ -131,3 +131,7 @@ coord_flip()
 This graph shows us visually how many of each fish species we have among the Great Lakes. From this graph I can tell Whitefish has the most species, followed by Walleye and then Northern Pike. Sheepshead has the lowest number of species.
 
 I found this question interesting to ask because there is a lot of species of fish among the great lakes. It was helpful to see the species laid out and made me more aware of how many species of fish are in the Great Lakes.
+
+# Future work
+
+To test my hypothesis further I would create a sample population to see if certain fish species increased more successfully than others throughout the years. To see if there is a correlation between certain fish species and their ability to successfully increase I could use a distribution curve for each individual fish species.
